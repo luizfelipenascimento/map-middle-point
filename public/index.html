@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Notes</title>
+    <link href="/vendor/normalize.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <script defer
+        src="/get-map-script"></script>
+</head>
+
+<body>
+    <h1>Map</h1>
+
+    <radio id="info-display">
+        Display Format:
+        <input type="radio" id="radio-decimal" name="location-info-display" value="dec" checked />
+        <label for="radio-decimal">Decimal</label>
+        <input type="radio" id="radio-degrees" name="location-info-display" value="deg" />
+        <label for="radio-degrees">Degrees</label>
+    </radio>
+
+    <p>
+        Latitude: <span id="latitude"></span><br />
+        Longitude: <span id="longitude"></span>
+    </p>
+
+    <div id="toolpanel">
+        <radio id="tool-items">
+            <input type="radio" id="control-map" name="tool-item" value="controlMap" checked />
+            <label for="control-map">Controlar Map</label>
+            <input type="radio" id="add-target" name="tool-item" value="addTarget" />
+            <label for="add-target">Adicionar Alvo</label>
+            <input type="radio" id="add-component" name="tool-item" value="addComponent" />
+            <label for="add-component">Adicionar Participante</label>
+        </radio>
+    </div>
+
+    <div id="map"></div>
+
+    <div id="map-mouse-position">
+        Latitude: <span id="maps-mouse-latitude"></span> | 
+        Longitude: <span id="maps-mouse-longitude"></span>
+    </div>
+    
+    <div>
+        <p id="event-console"></p>
+        <button id="event-console-clear-btn">clear</button>
+    </div>
+
+    <script src="/js/MapItem.js"></script>
+    <script src="/js/TargetItem.js"></script>
+    <script src="/js/MapController.js"></script>
+
+    <script>
+
+        const eventConsoleTextElement = document.getElementById('event-console')
+        const clearButton = document.getElementById('event-console-clear-btn')
+
+        clearButton.addEventListener('click', (e) => {
+            e.preventDefault()
+            eventConsoleTextElement.textContent = ""
+        })
+
+        const eventConsole = {
+            appendText(text) {
+                const now = new Date()
+                eventConsoleTextElement.textContent += `${now.getDate()}/${(now.getMonth() + 1)}/${now.getFullYear()} ${now.getHours()}:${ now.getMinutes()}:${now.getSeconds()}: ${text} \r\n`
+            }
+        }
+
+        eventConsole.appendText('Loading Map')
+        const controller = new MapController(eventConsole)
+        initializeMap = function () {
+            controller.initializeMap()
+        }
+    </script>
+</body>
+
+</html>

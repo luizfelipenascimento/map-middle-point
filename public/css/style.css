@@ -1,0 +1,38 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+    height: 100vh;
+}
+
+body {
+	color: #333;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0 auto;
+	max-width: 80%;
+}
+
+h1 {
+	color: #666;
+}
+
+#map {
+    height: 50vh;
+}
+
+#event-console {
+	white-space: pre;
+	padding: 10px;
+	height: 20vh;
+	overflow-y: auto;
+	border: 1px solid #888;
+	border-radius: 5px;
+}
+
+#map-mouse-position {
+	text-align: center;
+	visibility: hidden;
+}
