@@ -5,5 +5,4 @@ class TargetItem extends MapItem {
         this._marker.setLabel('AL')
     }
 
-
 }

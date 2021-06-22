@@ -93,7 +93,7 @@ class MapController {
         
     }
 
-    drawGroupAreas() {
+    drawGroupGrid() {
         if (this.target) {
             
             const {lat, lng} = this.target
