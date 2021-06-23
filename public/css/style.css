@@ -24,7 +24,6 @@ h1 {
 }
 
 #event-console {
-	white-space: pre;
 	padding: 10px;
 	height: 20vh;
 	overflow-y: auto;
@@ -35,4 +34,12 @@ h1 {
 #map-mouse-position {
 	text-align: center;
 	visibility: hidden;
+}
+
+.error {
+	color: #d83327;
+}
+
+.warning {
+	color: #faa700;
 }

@@ -1,15 +1,19 @@
 const eventConsoleTextElement = document.getElementById('event-console')
-const clearButton = document.getElementById('event-console-clear-btn')
+const $clearConsole = document.getElementById('event-console-clear-btn')
+const $console = document.querySelector('#event-console')
 
-clearButton.addEventListener('click', (e) => {
+$clearConsole.addEventListener('click', (e) => {
     e.preventDefault()
     eventConsoleTextElement.textContent = ""
 })
 
 const eventConsole = {
-    appendText(text) {
+    appendText(text, textDecoration) {
         const now = new Date()
-        eventConsoleTextElement.textContent += `${now.getDate()}/${(now.getMonth() + 1)}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}: ${text} \r\n`
+        const p = document.createElement('p')
+        p.classList.add(textDecoration)
+        p.textContent = `${now.getDate()}/${(now.getMonth() + 1)}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}: ${text}`
+        $console.appendChild(p)
     }
 }
 
