@@ -1,11 +1,3 @@
-const eventConsoleTextElement = document.getElementById('event-console')
-const $clearConsole = document.getElementById('event-console-clear-btn')
-const $console = document.querySelector('#event-console')
-
-$clearConsole.addEventListener('click', (e) => {
-    e.preventDefault()
-    eventConsoleTextElement.textContent = ""
-})
 
 const eventConsole = {
     appendText(text, textDecoration) {
@@ -17,8 +9,23 @@ const eventConsole = {
     }
 }
 
-eventConsole.appendText('Loading Map')
 const controller = new MapController(eventConsole)
-initializeMap = function () {
-    controller.initializeMap()
-}
+
+const eventConsoleTextElement = document.getElementById('event-console')
+const $clearConsole = document.getElementById('event-console-clear-btn')
+const $console = document.querySelector('#event-console')
+const $gridCheckbox = document.querySelector('#grid')
+
+$clearConsole.addEventListener('click', (e) => {
+    e.preventDefault()
+    eventConsoleTextElement.textContent = ""
+})
+
+$gridCheckbox.addEventListener('click', (e) => {
+    if (e.target.checked) {
+        controller.drawGroupGrid()
+    } else {
+        controller.removeGrid()
+    }
+})
+

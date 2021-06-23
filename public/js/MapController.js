@@ -5,12 +5,13 @@ class MapController {
         this.map = null
         this.lat = 0
         this.lng = 0
-        this._getUserLocation()
         this.mapItems = new Array()
         this.isOnMapListener = null
         this.target = null
         this.drawGroupsYOffset = 85
         this.drawGroupsXOffset = 50
+        this.initializeMap()
+        this._getUserLocation()
     }
 
     setMapToLocation(lat, lng) {
@@ -29,6 +30,7 @@ class MapController {
             })
         } else {
             console.error('navigator does not support geolocation')
+            this.map.setCenter(new google.maps.LatLng(-23.55, -48.66))
         }
     }
 
@@ -58,11 +60,7 @@ class MapController {
         this.displayLocaltion(lat, lng, 'dec', 'maps-mouse-latitude', 'maps-mouse-longitude')
     }
 
-    _convertCoordToPixel() {
-
-    }
-
-    drawGroupDivisions() {
+    _drawGroupDivisions() {
         if (this.target) {
             const {lat, lng} = this.target
             
@@ -109,7 +107,7 @@ class MapController {
             ]
 
             //group1 lat > t.lat ; lng > t.lng
-            const group1Area = new google.maps.Polygon({
+            this.group1Area = new google.maps.Polygon({
                 path: group1Vertices,
                 strokeColor: "#00ac00",
                 strokeOpacity: 1.0,
@@ -127,7 +125,7 @@ class MapController {
                 {lat, lng: lng - xOffset}
             ]
 
-            const group2Area = new google.maps.Polygon({
+            this.group2Area = new google.maps.Polygon({
                 path: group2Vertices,
                 strokeColor: "#ac0000",
                 strokeOpacity: 1.0,
@@ -146,7 +144,7 @@ class MapController {
                 {lat: lat , lng: lng - xOffset}
             ]
 
-            const group3Area = new google.maps.Polygon({
+            this.group3Area = new google.maps.Polygon({
                 path: group3Vertices,
                 strokeColor: "#0000ac",
                 strokeOpacity: 1.0,
@@ -157,7 +155,6 @@ class MapController {
             })
 
             //group4 lat < t.lat; lng > t.lng
-
             const group4Vertices = [
                 {lat, lng}, 
                 {lat: lat - (yOffset - lat), lng},
@@ -165,7 +162,7 @@ class MapController {
                 {lat, lng: lng + xOffset}
             ]
 
-            const group4Area = new google.maps.Polygon({
+            this.group4Area = new google.maps.Polygon({
                 path: group4Vertices,
                 strokeColor: "#ac0022",
                 strokeOpacity: 1.0,
@@ -175,20 +172,27 @@ class MapController {
                 clickable: false
             })
 
-            group1Area.setMap(this.map)
-            group2Area.setMap(this.map)
-            group3Area.setMap(this.map)
-            group4Area.setMap(this.map)
+            this.group1Area.setMap(this.map)
+            this.group2Area.setMap(this.map)
+            this.group3Area.setMap(this.map)
+            this.group4Area.setMap(this.map)
 
-            google.maps.event.clearListeners(group1Area, 'click');
-            google.maps.event.clearListeners(group2Area, 'click');
-            google.maps.event.clearListeners(group3Area, 'click');
-            google.maps.event.clearListeners(group4Area, 'click');            
+            google.maps.event.clearListeners(this.group1Area, 'click');
+            google.maps.event.clearListeners(this.group2Area, 'click');
+            google.maps.event.clearListeners(this.group3Area, 'click');
+            google.maps.event.clearListeners(this.group4Area, 'click');            
 
         } else {
             this.eventLog.appendText('Não existe um alvo no mapa, por tanto não há grupos')
         }
         
+    }
+
+    removeGrid() {
+        this.group1Area.setMap(null)
+        this.group2Area.setMap(null)
+        this.group3Area.setMap(null)
+        this.group4Area.setMap(null)
     }
 
     initializeMap() {
@@ -216,10 +220,10 @@ class MapController {
                         this.target = new TargetItem(latitude, longitude)
                         this.target.displayOnMap(this.map)
                         
-                        this.eventLog.appendText('Alvo adicionado Localização:' + latitude.toFixed(7) + ', ' + longitude.toFixed(7))
+                        this.eventLog.appendText('Alvo adicionado - Localização:' + latitude.toFixed(7) + ', ' + longitude.toFixed(7))
                         
                     } else {
-                        this.eventLog.appendText('Já existe um alvo adicionado no mapa')
+                        this.eventLog.appendText('Já existe um alvo adicionado no mapa', 'danger')
                     }
                 break
                 

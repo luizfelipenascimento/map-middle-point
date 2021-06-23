@@ -13,6 +13,18 @@ class MapItem {
         this.address = ''
     }
 
+    calculateGroup(target) {
+        if (this.lat >= target.lat && this.lng >= target.lng) 
+            this.group = 1
+        else if (this.lat >= target.lat && this.lng <= target.lng) {
+            this.group = 2
+        } else if (this.lat <= target.lat && this.lng <= target.lng) {
+            this.group = 3 
+        } else {
+            this.group = 4
+        }
+    }
+
     hide() {
         this._marker.setMap(null)
     }
